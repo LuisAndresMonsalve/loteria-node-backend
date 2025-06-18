@@ -39,7 +39,7 @@ jobs:
 
       - name: test project
         run: |
-          npm run test:watch
+          npm run test
           npm run test:coverage
 
 
@@ -50,4 +50,4 @@ jobs:
 #        with:
 #          name: ${{ github.run_id }}
 #          path:  dist/
-          retention-days: 14
+#          retention-days: 14
