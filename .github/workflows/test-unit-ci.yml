@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: ci-testing-unit
+name: ci-build-node
 
 # Controls when the workflow will run
 on:
@@ -18,19 +18,36 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: install dependencies
+        run: npm install
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: test project
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm run test:watch
+          npm run test:coverage
+
+
+
+        
+#      - name: Upload buiold artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ github.run_id }}
+#          path:  dist/
+          retention-days: 14
