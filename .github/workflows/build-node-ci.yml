@@ -45,3 +45,21 @@ jobs:
           name: ${{ github.run_id }}
           path:  dist/
           retention-days: 14
+          
+  deploy:
+    name: Dummy deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment: 
+      name: node-backend-dev
+      url: http://example.com
+
+    steps:
+      - name: 'descarga artefacto'
+        uses: actions/download-artifact@v4
+        with: 
+          name: ${{ github.run_id }}
+      - name: Imprime variables de entorno
+        run: |
+          echo "Secret VAR: ${{ secrets.SECRET_DEV }}"
+          echo "Env VAR: ${{ vars.PATH }}"            
