@@ -1,0 +1,18 @@
+name: use-template-ci
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: usar template reutilizable
+        uses: LuisAndresMonsalve/loteria-devops-reourecs/.github/actions/build/build-node-express@main
+        with:
+          comentario: '### Se imprime este mensaje ###'
+    
+
